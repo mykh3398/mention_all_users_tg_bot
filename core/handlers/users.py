@@ -1,7 +1,7 @@
 from aiogram import Bot, Dispatcher, F, Router, html
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
-
+from aiogram.filters import Command, CommandStart
 from aiogram.fsm.state import State, StatesGroup
 
 
@@ -12,42 +12,15 @@ subscriptionNameRules = "Give a name for a new subscription AND REPLY TO THIS ME
 form_router = Router()
 
 
-class Form(StatesGroup):
-    name = State()
-    like_bots = State()
-    language = State()
-
-
-@form_router.message(CommandStart())
-async def create_subscription(message: Message):
+async def create_subscription_start(message: Message):
     await message.reply(subscriptionNameRules)
-    await Form.name.set()
+    #...
 
 
-async def handle_subscription_name(message: types.Message, state: FSMContext):
-    subscription_name = message.text
-    await state.finish()  
-    await message.reply(subscription_name)
-
-async def handle_subscription(bot: Bot, message: Message):
-    subscription_name = message.text
-    CHAT_ID = message.chat.id    
-    user = message.from_user
-    chat_info = await bot.get_chat(CHAT_ID)
-    pinnedMessageinfo = chat_info.pinned_message
-    pinnedMessage = pinnedMessageinfo.text
-    if pinnedMessage:
-        if 'Bot' in pinnedMessage:
-            new_text = f"SUBSCRIBERS:\nname:{user.first_name}, id:{user.id}"
-        elif str(user.id) in pinnedMessage:
-            return   
-        else: 
-            new_text = f"{pinnedMessage}\nname:{user.first_name}, id:{user.id}"
-        await bot.edit_message_text(chat_id=CHAT_ID, message_id=pinnedMessageinfo.message_id, text=new_text, parse_mode='HTML')
-    else:
-        await bot.send_message(CHAT_ID, "В цьому чаті немає закріпленого повідомлення.")
-    await message.reply(f"Розсилка {subscription_name} створена!")
-
+async def create_subscription_command(message: Message, state: FSMContext):
+    #...
+    await subscription # ??
+    
     
 async def subscription(message: Message, bot: Bot):
     CHAT_ID = message.chat.id    
