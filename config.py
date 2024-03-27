@@ -1,3 +1,3 @@
 API_TOKEN='**your bot API token**'
-ADMIN_ID=
+ADMIN_ID=89
 TESTING_CHAT_ID=
