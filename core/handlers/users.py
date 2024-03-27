@@ -14,7 +14,7 @@ form_router = Router()
 
 async def create_subscription_start(message: Message):
     await message.reply(subscriptionNameRules)
-    #...test test2
+    #...test test2 test3
 
 
 async def create_subscription_command(message: Message, state: FSMContext):
