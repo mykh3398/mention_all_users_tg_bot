@@ -56,7 +56,6 @@ async def cancel_handler(message: Message, state: FSMContext) -> None:
 async def process_subscription_name(message: Message, state: FSMContext) -> None:
     await state.update_data(name=message.text)
     #await state.set_state(SunscriptionForm.<state>)
-    
     await message.answer(
         f"Subscription {html.quote(message.text)} have been created!",
         reply_markup=ReplyKeyboardMarkup(
@@ -83,6 +82,7 @@ async def subscription(message: Message, bot: Bot):
     user = message.from_user
     pinnedMessageinfo = await find_pinned_message(message, bot)
     if pinnedMessageinfo:
+        await authorithorian_subscription(message, bot)
         if 'Bot' in pinnedMessageinfo.text:
             new_text = f"SUBSCRIBERS:\nname:{user.first_name}, id:{user.id}"
         elif str(user.id) in pinnedMessageinfo.text:
@@ -94,13 +94,33 @@ async def subscription(message: Message, bot: Bot):
         await bot.send_message(CHAT_ID, "В цьому чаті немає закріпленого повідомлення.")
 
 
+async def authorithorian_subscription(message: Message, bot: Bot):
+    CHAT_ID = message.chat.id    
+    kirilID = 6618520341
+    #dimonID = 
+    #users = []
+    #users.append(kirilID)
+    #users.append(dimonID)
+    
+    
+    #function of manually subscribing users by admin replying to their messages
+    #probably FSM is also needed
+    
+    pinnedMessageinfo = await find_pinned_message(message, bot)
+    if pinnedMessageinfo:
+        if str(kirilID) in pinnedMessageinfo.text:
+            return   
+        else: 
+            new_text = f"{pinnedMessageinfo.text}\nname:Kiril Panchul, id:{kirilID}"
+        await bot.edit_message_text(chat_id=CHAT_ID, message_id=pinnedMessageinfo.message_id, text=new_text, parse_mode='HTML')
+    
+
 async def mention_all(message: Message, bot: Bot):
     CHAT_ID = message.chat.id    
     user = message.from_user
     chat_info = await bot.get_chat(CHAT_ID)
     pinnedMessageinfo = chat_info.pinned_message
     pinnedMessage = pinnedMessageinfo.text
-    #------------
     subscribers = []
     lines = pinnedMessage.split('\n')
     for line in lines:
