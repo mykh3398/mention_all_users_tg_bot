@@ -1,23 +1,22 @@
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher, types, Router
 from aiogram.types import Message
 from aiogram.filters import Command
 
 import asyncio
 import logging
 
-from core.handlers.basic import get_start
-from core.handlers.basic import get_hi
-from core.handlers.users import subscription
-from core.handlers.users import mention_all
-from core.handlers.users import create_subscription_name
-
 from core.utils.commands import set_commands
+from core.handlers.basic import basic_router
+from core.handlers.users import users_router
 
 from config import API_TOKEN
 from config import TESTING_CHAT_ID
 
+
+
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
+
 
 async def start_bot(bot: Bot): 
     await set_commands(bot)
@@ -34,16 +33,11 @@ async def start():
                         )
     dp.startup.register(start_bot)
     dp.shutdown.register(stop_bot)
-    
-    dp.message.register(get_start, Command(commands=['start']))
-    dp.message.register(get_hi, Command(commands=['hi']))
-    dp.message.register(mention_all, Command(commands=['all']))
-    dp.message.register(subscription, Command(commands=['subscribe']))
-    dp.message.register(create_subscription_name, Command(commands=['create_subscription']))
+    dp.include_router(basic_router)
+    dp.include_router(users_router)
+
     # for userCommand in userCommands:
     #     dp.message.register(subscription, Command(commands=['subscribe']))
-    
-    
     
     try:
         await dp.start_polling(bot)
