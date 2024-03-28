@@ -9,7 +9,7 @@ from core.handlers.basic import get_start
 from core.handlers.basic import get_hi
 from core.handlers.users import subscription
 from core.handlers.users import mention_all
-from core.handlers.users import create_subscription_start
+from core.handlers.users import create_subscription_name
 
 from core.utils.commands import set_commands
 
@@ -39,7 +39,7 @@ async def start():
     dp.message.register(get_hi, Command(commands=['hi']))
     dp.message.register(mention_all, Command(commands=['all']))
     dp.message.register(subscription, Command(commands=['subscribe']))
-    dp.message.register(create_subscription_start, Command(commands=['create_subscription']))
+    dp.message.register(create_subscription_name, Command(commands=['create_subscription']))
     # for userCommand in userCommands:
     #     dp.message.register(subscription, Command(commands=['subscribe']))
     

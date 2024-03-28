@@ -21,6 +21,10 @@ async def set_commands(bot: Bot):
             description="Mention all users"
         ),
         BotCommand(
+            command='cancel',
+            description="Cancel previous operation"
+        ),
+        BotCommand(
             command='create_subscription',
             description="Create new selfmade subscription"
         ),
